@@ -1,0 +1,28 @@
+using UnityEngine;
+
+//we require a Collider2D Object
+[RequireComponent(typeof(Collider2D))]
+public class Pellet : MonoBehaviour
+{
+    //how many points each pellet is worth
+    public int points = 10;
+
+    //naming it protected virtual will allow overriding
+    //we want to override this method in PowerPellets.cs
+    protected virtual void Eat()
+    {
+        //reference GameManager and say our pellet was eaten
+        FindObjectOfType<GameManager>().PelletEaten(this);
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        //check to see if object we are colliding with is Pacman
+        if (other.gameObject.layer == LayerMask.NameToLayer("Pacman"))
+        {
+            Eat();
+        }
+    }
+
+}
